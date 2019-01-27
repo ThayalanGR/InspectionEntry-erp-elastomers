@@ -20,20 +20,16 @@ public class URLActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_url);
 
-        mText=(EditText)findViewById(R.id.editText);
-        mButton=(Button)findViewById(R.id.button);
+        mText = (EditText) findViewById(R.id.editText);
+        mButton = (Button) findViewById(R.id.button);
         Paper.init(this);
-        String old=Paper.book().read("url");
-        if(old!=null){
-            mText.setText(old);
-        }
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!TextUtils.isEmpty(mText.getText().toString())){
-                    Paper.book().write("url",mText.getText().toString());
+                if (!TextUtils.isEmpty(mText.getText().toString())) {
+                    Paper.book().write("url", mText.getText().toString());
                 }
-                Intent intent=new Intent(getApplicationContext(),MainActivity.class);
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
             }
         });

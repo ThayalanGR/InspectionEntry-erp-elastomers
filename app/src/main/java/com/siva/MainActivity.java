@@ -18,7 +18,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -46,30 +45,28 @@ public class MainActivity extends AppCompatActivity {
     TextView responseText;
     APIInterface apiInterface;
     EditText mId;
-    int counter=0;
+    int counter = 0;
     ProgressDialog mProgress;
     ImageView mImage;
     DatabaseReference mDatabase;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mId=(EditText)findViewById(R.id.id_input) ;
+        mId = (EditText) findViewById(R.id.id_input);
         Paper.init(this);
-        String base_url=Paper.book().read("url");
-        if(!TextUtils.isEmpty(base_url)){
-            Common.BASE_URL=base_url;
+        String base_url = Paper.book().read("url");
+        if (!TextUtils.isEmpty(base_url)) {
+            Common.BASE_URL = base_url;
         }
 
-        mDatabase=FirebaseDatabase.getInstance().getReference();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String result=dataSnapshot.child("shutdown").getValue().toString();
-                if(result.equals("true")){
+                String result = dataSnapshot.child("shutdown").getValue().toString();
+                if (result.equals("true")) {
                     finish();
                 }
 
@@ -82,25 +79,23 @@ public class MainActivity extends AppCompatActivity {
         });
 
         apiInterface = APIClient.getClient().create(APIInterface.class);
-        mProgress=new ProgressDialog(this);
+        mProgress = new ProgressDialog(this);
         mProgress.setTitle("Loading..");
         mProgress.setMessage("Please wait  ");
         mProgress.setCanceledOnTouchOutside(false);
-        mId.requestFocus();
-        mImage=(ImageView)findViewById(R.id.imageView);
+        mImage = (ImageView) findViewById(R.id.imageView);
         mImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                     counter++;
+                counter++;
 
-                if(counter==3) {
-                   Intent intent=new Intent(getApplicationContext(),URLActivity.class);
-                   startActivity(intent);
+                if (counter == 3) {
+                    Intent intent = new Intent(getApplicationContext(), URLActivity.class);
+                    startActivity(intent);
                 }
             }
         });
-
         mId.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -114,56 +109,59 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                String id=mId.getText().toString();
+                String id = mId.getText().toString();
                 mProgress.show();
-                if(!TextUtils.isEmpty(id)){
-                    Call<Inspection> call=apiInterface.doGetDetails(id);
+                if (!TextUtils.isEmpty(id)) {
+                    Call<Inspection> call = apiInterface.doGetDetails(id);
                     call.enqueue(new Callback<Inspection>() {
                         @Override
-                        public void onResponse(Call<com.siva.Model.Inspection> call, final Response<com.siva.Model.Inspection> response) {
+                        public void onResponse(Call<com.siva.Model.Inspection> call,
+                                final Response<com.siva.Model.Inspection> response) {
                             mProgress.dismiss();
-                            if(response.code()==200) {
+                            if (response.code() == 200) {
                                 final com.siva.Model.Inspection data = response.body();
-                                new FancyAlertDialog.Builder(MainActivity.this)
-                                        .setTitle("Details")
-                                        .setBackgroundColor(Color.parseColor("#008577"))  //Don't pass R.color.colorvalue
-                                        .setMessage("Key reference: " + data.getResponse().getIssref() + '\n' +
-                                                "Def.rec.data: " + data.getResponse().getDefrecdate()+ '\n' +
-                                                "Part no :" + data.getResponse().getCmpdname() + '\n' +
-                                                "Part description :" + data.getResponse().getCmpdrefno() + '\n' +
-                                                "Receipt quantity :" + data.getResponse().getCurrrec())
+                                new FancyAlertDialog.Builder(MainActivity.this).setTitle("Details")
+                                        .setBackgroundColor(Color.parseColor("#008577")) // Don't pass
+                                                                                         // R.color.colorvalue
+                                        .setMessage("Key reference: " + data.getResponse().getIssref() + '\n'
+                                                + "Def.rec.data: " + data.getResponse().getDefrecdate() + '\n'
+                                                + "Part no :" + data.getResponse().getCmpdname() + '\n'
+                                                + "Part description :" + data.getResponse().getCmpdrefno() + '\n'
+                                                + "Receipt quantity :" + data.getResponse().getCurrrec())
 
                                         .setNegativeBtnText("Cancel")
-                                        .setPositiveBtnBackground(Color.parseColor("#008577"))  //Don't pass R.color.colorvalue
+                                        .setPositiveBtnBackground(Color.parseColor("#008577")) // Don't pass
+                                                                                               // R.color.colorvalue
                                         .setPositiveBtnText("Proceed")
-                                        .setNegativeBtnBackground(Color.parseColor("#FFA9A7A8"))  //Don't pass R.color.colorvalue
-                                        .setAnimation(Animation.POP)
-                                        .isCancellable(true)
+                                        .setNegativeBtnBackground(Color.parseColor("#FFA9A7A8")) // Don't pass
+                                                                                                 // R.color.colorvalue
+                                        .setAnimation(Animation.POP).isCancellable(true)
                                         .setIcon(R.drawable.ic_star_border_black_24dp, Icon.Visible)
                                         .OnPositiveClicked(new FancyAlertDialogListener() {
                                             @Override
                                             public void OnClick() {
 
-                                                List<String> list= data.getUserList();
-                                                List<Inspection.RejectionList> rejectedList=data.getRejectionList();
-                                                List<String> resultReject= new ArrayList<>();
+                                                List<String> list = data.getUserList();
+                                                List<Inspection.RejectionList> rejectedList = data.getRejectionList();
+                                                List<String> resultReject = new ArrayList<>();
                                                 List<String> symbolReject = new ArrayList<>();
-                                                if (rejectedList!=null) {
+                                                if (rejectedList != null) {
                                                     for (int i = 0; i < rejectedList.size(); i++) {
                                                         resultReject.add(rejectedList.get(i).getRejType());
                                                         symbolReject.add(rejectedList.get(i).getRejShortName());
 
                                                     }
                                                 }
-                                                Intent intent = new Intent(getApplicationContext(), EditInspectionActivity.class);
+                                                Intent intent = new Intent(getApplicationContext(),
+                                                        EditInspectionActivity.class);
                                                 intent.putExtra("currrec", data.getResponse().getCurrrec());
-                                                intent.putExtra("isexternal",data.getResponse().getIsexternal());
-                                                intent.putExtra("cmpdid",data.getResponse().getCmpdid());
-                                                intent.putExtra("sno",data.getResponse().getSno());
-                                                intent.putExtra("defrecdate",data.getResponse().getDefrecdate());
-                                                intent.putExtra("defrecdatef",data.getResponse().getDefrecdatef());
-                                                intent.putExtra("cmpdname",data.getResponse().getCmpdname());
-                                                intent.putExtra("cmpdrefno",data.getResponse().getCmpdrefno());
+                                                intent.putExtra("isexternal", data.getResponse().getIsexternal());
+                                                intent.putExtra("cmpdid", data.getResponse().getCmpdid());
+                                                intent.putExtra("sno", data.getResponse().getSno());
+                                                intent.putExtra("defrecdate", data.getResponse().getDefrecdate());
+                                                intent.putExtra("defrecdatef", data.getResponse().getDefrecdatef());
+                                                intent.putExtra("cmpdname", data.getResponse().getCmpdname());
+                                                intent.putExtra("cmpdrefno", data.getResponse().getCmpdrefno());
 
                                                 intent.putExtra("id", data.getResponse().getIssref());
                                                 intent.putExtra("list", (Serializable) list);
@@ -172,41 +170,37 @@ public class MainActivity extends AppCompatActivity {
 
                                                 startActivity(intent);
                                             }
-                                        })
-                                        .OnNegativeClicked(new FancyAlertDialogListener() {
+                                        }).OnNegativeClicked(new FancyAlertDialogListener() {
                                             @Override
                                             public void OnClick() {
 
                                             }
-                                        })
-                                        .build();
-                            }else if(response.code()==204){
+                                        }).build();
+                            } else if (response.code() == 204) {
                                 mProgress.dismiss();
                                 mId.setText("");
-                                Toast.makeText(getApplicationContext(),"No data found",Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(), "No data found", Toast.LENGTH_LONG).show();
                             }
                         }
 
                         @Override
                         public void onFailure(Call<com.siva.Model.Inspection> call, Throwable t) {
-                            Log.e("CANCELLEd",t.getMessage());
+                            Log.e("CANCELLEd", t.getMessage());
                             mProgress.dismiss();
                             mId.setText("");
-                            Toast.makeText(getApplicationContext(),"Something wrong ..!",Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "Something wrong ..!", Toast.LENGTH_LONG).show();
                             call.cancel();
 
                         }
 
                     });
-                }else{
+                } else {
                     mProgress.dismiss();
-                    Toast.makeText(getApplicationContext(),"Empty field..!",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Empty field..!", Toast.LENGTH_LONG).show();
                 }
             }
         });
 
-
     }
-
 
 }
