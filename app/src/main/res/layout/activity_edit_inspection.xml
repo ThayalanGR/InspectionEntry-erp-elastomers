@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/relative"
+    tools:context=".EditInspectionActivity"
+    android:fillViewport="true"
+    android:background="@color/colorPrimary">
+
+    <ScrollView
+        android:id="@+id/scroll"
+        android:layout_above="@id/btn_proceed"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp"
+        android:fillViewport="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+
+                <TextView
+                    android:id="@+id/plan_reference"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/white"
+                    android:text="Plan Reference: "
+                    android:layout_marginTop="10dp"
+                    android:layout_below="@id/approved_quality"
+                    android:singleLine="true"
+                    android:textSize="20dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/hint" />
+
+
+            <com.isapanah.awesomespinner.AwesomeSpinner
+                android:id="@+id/my_spinner"
+                android:layout_below="@id/plan_reference"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:spinnerDirection="ltr"
+                android:layout_margin="10dp"
+                app:spinnerHint="Select a Inspector"
+                android:background="@color/white"/>
+
+            <LinearLayout
+                android:id="@+id/linear1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/my_spinner"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:id="@+id/img_date"
+                    android:layout_width="55dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_date" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Inspection Date"
+                    android:id="@+id/txt_date"
+                    android:textColor="@color/white"
+                    android:textSize="18dp"/>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/receipt_quality"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/linear1"
+                android:layout_marginTop="10dp"
+                android:backgroundTint="@color/white"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:textColorHint="@color/hint"
+                android:singleLine="true"
+                android:textSize="19dp"
+                android:textColor="@color/white"
+                android:text=" Receipt Quality"/>
+            <EditText
+                android:id="@+id/inspected_quality"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/receipt_quality"
+                android:layout_marginTop="10dp"
+                android:backgroundTint="@color/white"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:textColorHint="@color/hint"
+                android:singleLine="true"
+                android:textColor="@color/white"
+                android:hint="Inspected Quality"/>
+
+            <RelativeLayout
+                android:id="@+id/relativelayout1"
+                android:layout_width="match_parent"
+                android:layout_below="@id/inspected_quality"
+                android:layout_height="wrap_content">
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/approved_quality"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/rounded_border"
+                android:padding="5dp"
+                android:text="Approved Quality:"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+
+
+    </ScrollView>
+
+    <Button
+        android:id="@+id/btn_proceed"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginBottom="13dp"
+        android:background="@drawable/btn_style"
+        android:text="Proceed" />
+
+</RelativeLayout>
+
+
+
