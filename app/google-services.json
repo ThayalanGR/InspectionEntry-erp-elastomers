@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "960319951392",
+    "firebase_url": "https://inspection-ec088.firebaseio.com",
+    "project_id": "inspection-ec088",
+    "storage_bucket": "inspection-ec088.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:960319951392:android:4fa0e93778327199",
+        "android_client_info": {
+          "package_name": "com.siva"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "960319951392-307i80p96d1ti379csk1ek878hfo0idn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAsXnRgsN5s7ai6d3nW6Wbu01_ePMgay9Q"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
